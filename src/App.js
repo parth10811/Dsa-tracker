@@ -10,17 +10,14 @@ import Footer from "./components/Footer/Footer";
 import ReactGA from "react-ga4";
 import "./App.css";
 
-// Creating a theme context
+
 export const ThemeContext = createContext(null);
 
 function App() {
-  // setting state for data received from the DB
   const [questionData, setquestionData] = useState([]);
 
-  // if dark theme is enabled or not
   const [dark, setDark] = useState(false);
 
-  // useEffect for fetching data from DB on load and init GA
   useEffect(() => {
     localStorage.removeItem("cid");
     ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
@@ -28,12 +25,11 @@ function App() {
       setquestionData(QuestionData);
     });
 
-    //implementing dark theme mode option
-    // checking if dark mode "isDark" is already declared or not
+
     if (!("isDark" in window.localStorage)) {
       window.localStorage.setItem("isDark", dark);
     } else {
-      // initialising the value of dark with the already stored value
+
       let temp = window.localStorage["isDark"];
       if (temp === "false") {
         setDark(false);
@@ -43,7 +39,7 @@ function App() {
     }
   }, []);
 
-  //to update progress in '/' route and also update DB
+
   function updateData(key, topicData, topicPosition) {
     let reGenerateUpdatedData = questionData.map((topic, index) => {
       if (index === topicPosition) {
@@ -56,7 +52,6 @@ function App() {
     setquestionData(reGenerateUpdatedData);
   }
 
-  // reset and clear DB
   function resetData() {
     resetDBData((response) => {
       setquestionData([]);
@@ -64,7 +59,7 @@ function App() {
     });
   }
 
-  // export 450DSA-Progress data
+
 
   function exportData(callback) {
     exportDBData((data) => {
@@ -75,7 +70,7 @@ function App() {
     });
   }
 
-  // import 450DSA-Progress data
+
 
   function importData(data, callback) {
     importDBData(data, (QuestionData) => {
@@ -107,7 +102,7 @@ function App() {
         </h1>
 
         {questionData.length === 0 ? (
-          // load spinner until data is fetched from DB
+
           <div className="d-flex justify-content-center">
             <Spinner animation="grow" variant="success" />
           </div>
